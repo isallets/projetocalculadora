@@ -18,11 +18,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-////////
-
 class Calculadora extends StatefulWidget {
   const Calculadora({super.key});
-
 
   @override
   _CalculadoraState createState() => _CalculadoraState();
@@ -30,27 +27,110 @@ class Calculadora extends StatefulWidget {
 
 class _CalculadoraState extends State<Calculadora> {
   String display = '';
+  String n1 = '';
+  String n2 = '';
+  String operador = '';
+  bool resultadoMostrado = false;
+
   final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
   Widget buildBotao(String texto) {
+
     return SizedBox(
       width: 80,
       height: 70,
       child: ElevatedButton(
-        onPressed: () {
-          setState(() {
-            if (texto == 'C') {
-              display = '';
-            } else if (texto == '=') {
 
+       onPressed: () {
+        setState(() {
+          if (texto == 'C') {
+            display = '';
+            n1 = '';
+            n2 = '';
+            operador = '';
+            resultadoMostrado = false;
+          } 
+           
+          else if (texto == 'CE') {
+          if (resultadoMostrado) {
+            display = '';
+            n1 = '';
+            n2 = '';
+            operador = '';
+            resultadoMostrado = false;
+          } else {
+            if (operador.isEmpty) {
+              display = '';
+              n1 = '';
+            } else {
+              display = '';
+              n2 = '';
+            }
+          }
+
+          } else if (texto == '+' || texto == '-' || texto == '*' || texto == '/') {
+            if (n1.isNotEmpty && n2.isEmpty) {
+              operador = texto;
+              resultadoMostrado = false;
+            }
+          } else if (texto == '=') {
+            if (n1.isNotEmpty && operador.isNotEmpty && n2.isNotEmpty) {
+              try {
+                double num1 = double.parse(n1);
+                double num2 = double.parse(n2);
+                double res = 0;
+
+                if (operador == '+') res = num1 + num2;
+                if (operador == '-') res = num1 - num2;
+                if (operador == '*') res = num1 * num2;
+                if (operador == '/') {
+                  if (num2 != 0) {
+                    res = num1 / num2;
+                  } else {
+                    throw Exception('Divisão por zero');
+                  }
+                }
+
+                display = res.toString();
+                n1 = res.toString();
+                n2 = '';
+                operador = '';
+                resultadoMostrado = true;
+              } catch (e) {
+                display = 'Erro';
+                n1 = '';
+                n2 = '';
+                operador = '';
+                resultadoMostrado = false;
+              }
+            }
+          } 
+           else {
+            if (resultadoMostrado) {
+              display = texto;
+              n1 = texto;
+              n2 = '';
+              operador = '';
+              resultadoMostrado = false;
             } else {
               display += texto;
+              if (operador.isEmpty) {
+                n1 += texto;
+              } else {
+                n2 += texto;
+              }
             }
-            _controller.text = display;
-          });
-        },
+          }
+          if (n2.isNotEmpty) {
+            _controller.text = n2;
+          } else {
+            _controller.text = n1;
+          }
+        });
+      },
+
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color.fromARGB(255, 249, 206, 227),
           shape: RoundedRectangleBorder(
@@ -64,6 +144,7 @@ class _CalculadoraState extends State<Calculadora> {
       ),
     );
   }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 146, 194, 242),
@@ -79,6 +160,7 @@ class _CalculadoraState extends State<Calculadora> {
       ),
       body: Column(
         children: [
+
         //visor
         Container(
           color: const Color.fromARGB(255, 239, 233, 155),
@@ -98,6 +180,7 @@ class _CalculadoraState extends State<Calculadora> {
             )
           )
         ),  
+
         //teclado
         Container(
           height: 530,
@@ -111,7 +194,7 @@ class _CalculadoraState extends State<Calculadora> {
                 children: [
                   buildBotao('C'),
                   buildBotao('CE'),
-                  buildBotao(','),
+                  buildBotao('.'),
                   buildBotao('/'),
                 ],
               ),
