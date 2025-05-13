@@ -92,7 +92,6 @@ class _CalculadoraState extends State<Calculadora> {
                     throw Exception('Divisão por zero');
                   }
                 }
-
                 display = res.toString();
                 n1 = res.toString();
                 n2 = '';
@@ -106,7 +105,9 @@ class _CalculadoraState extends State<Calculadora> {
                 resultadoMostrado = false;
               }
             }
-          } 
+          }
+
+          //se apertar qualquer outro botão
            else {
             if (resultadoMostrado) {
               display = texto;
@@ -123,6 +124,7 @@ class _CalculadoraState extends State<Calculadora> {
               }
             }
           }
+
           if (n2.isNotEmpty) {
             _controller.text = n2;
           } else {
@@ -132,14 +134,17 @@ class _CalculadoraState extends State<Calculadora> {
       },
 
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color.fromARGB(255, 249, 206, 227),
+          backgroundColor:  Color.fromARGB(255, 249, 206, 227),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           ),
         ),
         child: Text(
           texto,
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 24, 
+            fontWeight: FontWeight.bold
+          ),
         ),
       ),
     );
@@ -150,7 +155,7 @@ class _CalculadoraState extends State<Calculadora> {
         backgroundColor: Color.fromARGB(255, 146, 194, 242),
         title: Row(
         children: [
-          const Image(
+          Image(
             image: AssetImage('lib/assets/littletwinstars.png'),
             height: 70,
             ),
@@ -163,7 +168,7 @@ class _CalculadoraState extends State<Calculadora> {
 
         //visor
         Container(
-          color: const Color.fromARGB(255, 239, 233, 155),
+          color: Color.fromARGB(255, 239, 233, 155),
           height: 250,
           padding: EdgeInsets.all(16),
           alignment: Alignment.bottomRight,
@@ -173,7 +178,7 @@ class _CalculadoraState extends State<Calculadora> {
             textAlign: TextAlign.right,
             style: TextStyle(
               fontSize: 50,
-              color: const Color.fromARGB(255, 9, 153, 215),
+              color: Color.fromARGB(255, 9, 153, 215),
             ),
               decoration: InputDecoration(
               border: InputBorder.none,
@@ -183,8 +188,8 @@ class _CalculadoraState extends State<Calculadora> {
 
         //teclado
         Container(
-          height: 530,
-          color: const Color.fromARGB(255, 158, 212, 255),
+          height: 532,
+          color: Color.fromARGB(255, 158, 212, 255),
           padding: EdgeInsets.all(10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
